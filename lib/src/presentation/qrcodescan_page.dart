@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'dart:io';
 
 class QRCodeScanPage extends StatefulWidget {
   const QRCodeScanPage({super.key});
@@ -18,6 +19,17 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  @override
+  void reassemble () {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    else if (Platform.isIOS) {
+      controller!.resumeCamera();
+    }
   }
 
   void _onQRViewCreated(QRViewController controller) {
