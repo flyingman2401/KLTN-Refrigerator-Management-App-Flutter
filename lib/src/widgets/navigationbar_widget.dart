@@ -68,7 +68,7 @@ class NavigationBarWidgetState extends State<NavigationBarWidget> {
             Navigator.push(
               context,
               PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const QRCodeScanPage(overlayColour: Colors.blue,),
+                pageBuilder: (_, __, ___) => QRCodeScanPage(),
                 transitionDuration: const Duration(milliseconds: 30),
                 transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
               )
