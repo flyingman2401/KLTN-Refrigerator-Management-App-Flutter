@@ -23,7 +23,7 @@ class SettingspagePage extends StatelessWidget {
           const AccountImage(),
         ],
       ),
-      // bottomNavigationBar: const NavigationBarWidget(),
+      
     );
   }
   

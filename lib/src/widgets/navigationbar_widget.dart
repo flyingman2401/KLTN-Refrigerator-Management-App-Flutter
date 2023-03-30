@@ -81,7 +81,7 @@ class NavigationBarWidgetState extends State<NavigationBarWidget> {
       bottomNavigationBar: Container(
 
         width: MediaQuery.of(context).size.width,
-        height: 72,
+        height: 80,
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(
             color: Colors.black.withOpacity(0.1),
