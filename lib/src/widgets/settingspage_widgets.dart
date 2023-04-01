@@ -57,3 +57,81 @@ class AccountImage extends StatelessWidget {
   }
 
 }
+
+class AccountSettings extends StatelessWidget {
+  const AccountSettings({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      // padding: EdgeInsets.all(12.0),
+      margin: EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30.0),
+        boxShadow: [ BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          spreadRadius: 15,
+          blurRadius: 50,
+          offset: const Offset(0, 0), // changes position of shadow
+        )],
+      ),
+      
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start  ,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          AccountSettingsItem(),
+          AccountSettingsItem(),
+          AccountSettingsItem(),
+          AccountSettingsItem(),
+          AccountSettingsItem(),
+        ],
+      ),
+    );
+  }
+  
+}
+
+class AccountSettingsItem extends StatelessWidget {
+  const AccountSettingsItem({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 48,
+      padding: EdgeInsets.all(6.0),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(30.0),
+        boxShadow: [ BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          spreadRadius: 15,
+          blurRadius: 50,
+          offset: const Offset(0, 0), // changes position of shadow
+        )],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 36.0,
+            height: 36.0,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(12.0)
+            ),
+            child: IconButton(
+              icon: SvgPicture.asset('lib/images/home.svg'),
+              onPressed: () => {},
+            ),
+          ),
+          Text('Cài đặt ...')
+        ],
+      ),
+    );
+  }
+  
+}

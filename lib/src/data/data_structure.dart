@@ -48,3 +48,26 @@ class UserInformation {
     );
   }
 }
+
+class FoodQRCode {
+  final String foodName;
+  final String manufactureName;
+  final String expirationDate;
+  final String productionDate;
+
+  FoodQRCode({
+    required this.foodName,
+    required this.manufactureName,
+    required this.expirationDate,
+    required this.productionDate
+  });
+
+  factory FoodQRCode.fromJson(Map<String, dynamic> json) {
+    return FoodQRCode(
+      foodName: json['foodName'], 
+      manufactureName: json['manufactureName'], 
+      expirationDate: json['expirationDate'],
+      productionDate: json['productionDate']
+    );
+  }
+}
