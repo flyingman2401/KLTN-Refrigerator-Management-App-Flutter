@@ -54,20 +54,26 @@ class FoodQRCode {
   final String manufactureName;
   final String expirationDate;
   final String productionDate;
+  final int amount;
+  final String unit;
 
   FoodQRCode({
     required this.foodName,
     required this.manufactureName,
     required this.expirationDate,
-    required this.productionDate
+    required this.productionDate,
+    required this.amount,
+    required this.unit
   });
 
   factory FoodQRCode.fromJson(Map<String, dynamic> json) {
     return FoodQRCode(
-      foodName: json['foodName'], 
-      manufactureName: json['manufactureName'], 
-      expirationDate: json['expirationDate'],
-      productionDate: json['productionDate']
+      foodName: json['name'], 
+      manufactureName: json['manufacture'], 
+      expirationDate: json['EXP'],
+      productionDate: json['PRD'],
+      amount: json['amount'],
+      unit: json['unit'],
     );
   }
 }

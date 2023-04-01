@@ -60,8 +60,8 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
               'Nhà sản xuất: ${data.manufactureName} \n'
               'Ngày sản xuất: ${data.productionDate} \n'
               'Hạn sử dụng: ${data.expirationDate} \n'
-              'Số lượng: \n'
-              'Đơn vị tính: \n'
+              'Số lượng: ${data.amount} \n'
+              'Đơn vị tính: ${data.unit} \n'
             ),
             actions: <Widget>[
               TextButton(
