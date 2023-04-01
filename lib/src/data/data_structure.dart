@@ -54,7 +54,7 @@ class FoodQRCode {
   final String manufactureName;
   final String expirationDate;
   final String productionDate;
-  final int amount;
+  final String amount;
   final String unit;
 
   FoodQRCode({
