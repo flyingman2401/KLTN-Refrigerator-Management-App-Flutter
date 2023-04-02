@@ -49,7 +49,7 @@ class UserInformation {
   }
 }
 
-class FoodQRCode {
+class FoodQRCodeData {
   final String foodName;
   final String manufactureName;
   final String expirationDate;
@@ -57,7 +57,7 @@ class FoodQRCode {
   final String amount;
   final String unit;
 
-  FoodQRCode({
+  FoodQRCodeData({
     required this.foodName,
     required this.manufactureName,
     required this.expirationDate,
@@ -66,8 +66,8 @@ class FoodQRCode {
     required this.unit
   });
 
-  factory FoodQRCode.fromJson(Map<String, dynamic> json) {
-    return FoodQRCode(
+  factory FoodQRCodeData.fromJson(Map<String, dynamic> json) {
+    return FoodQRCodeData(
       foodName: json['name'], 
       manufactureName: json['manufacture'], 
       expirationDate: json['EXP'],

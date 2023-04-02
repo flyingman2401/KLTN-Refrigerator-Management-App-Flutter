@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'dart:convert';
 
 import 'package:refrigerator_management_app/src/data/data_structure.dart';
+import 'package:refrigerator_management_app/src/widgets/qrcodescan_widget.dart';
 
 class QRCodeScanPage extends StatefulWidget {
   const QRCodeScanPage({super.key});
@@ -45,23 +43,23 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
     
     controller.scannedDataStream.listen((scanData) {
       if (!scanDone) {
-        // Scanned result
-        scanDone = true;
-        String stringData = scanData.code!;
-        FoodQRCode data = FoodQRCode.fromJson(jsonDecode(stringData));
         
+        scanDone = true;
+        FoodQRCodeData jsonFoodData = FoodQRCodeData.fromJson(jsonDecode(scanData.code!));
+        
+        // Chuyển trang hiển thị thông tin, lưu trạng thái
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             title: const Text('QR scanned!'),
             content: Text(
               'Result: \n'
-              'Sản phẩm: ${data.foodName} \n'
-              'Nhà sản xuất: ${data.manufactureName} \n'
-              'Ngày sản xuất: ${data.productionDate} \n'
-              'Hạn sử dụng: ${data.expirationDate} \n'
-              'Số lượng: ${data.amount} \n'
-              'Đơn vị tính: ${data.unit} \n'
+              'Sản phẩm: ${jsonFoodData.foodName} \n'
+              'Nhà sản xuất: ${jsonFoodData.manufactureName} \n'
+              'Ngày sản xuất: ${jsonFoodData.productionDate} \n'
+              'Hạn sử dụng: ${jsonFoodData.expirationDate} \n'
+              'Số lượng: ${jsonFoodData.amount} \n'
+              'Đơn vị tính: ${jsonFoodData.unit} \n'
             ),
             actions: <Widget>[
               TextButton(
@@ -80,6 +78,7 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
             ],
           ),
         );
+
         setState(() {
           result = scanData.code!;
         });
@@ -94,101 +93,77 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Stack(
+        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                color: Colors.blue
-              ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 24.0)),
+
+            // Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                BackButtonQRScanPage(),
+                Text(
+                            'Quét mã QR', 
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Montserrat'
+                            ), 
+                          ),
+                HelpButton(),
+              ],
             ),
-            Center(child: Container(
-              width: MediaQuery.of(context).size.width - 100,
-              height: MediaQuery.of(context).size.height - 200,
-              decoration: BoxDecoration(
-                color: Colors.black
-              ),
-              foregroundDecoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(30.0)
-              ),
-              child: QRView(
-                key: qrKey, 
-                onQRViewCreated: _onQRViewCreated,
-                overlay: QrScannerOverlayShape(
-                  // overlayColor: Colors.black,
-                  borderColor: Colors.white,
-                  borderWidth: 8.0,
-                  borderRadius: 30.0,
-                  borderLength: 50.0
-                ),
-              ),
-            ),),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            const Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
+
+            // QR View
+            Expanded(
+              flex: 8,
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        BackButton(
-                          color: Colors.white,
-                          onPressed: () => {Navigator.pop(context, true)},
-                        ),
-                        Text(
-                          'Quét mã QR', 
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat'
-                          ), 
-                        )
-                      ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: QRView(
+                      key: qrKey,
+                      onQRViewCreated: _onQRViewCreated,
+                      overlay: QrScannerOverlayShape(
+                        // overlayColor: Color.fromRGBO(0, 0, 0, 0.2),
+                        borderColor: Colors.white,
+                        borderWidth: 8.0,
+                        borderRadius: 30.0,
+                        borderLength: 50.0
+                      ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 3,
-                    decoration: BoxDecoration(
-                      // color: Colors.yellow,
-                    ),
-                    child: IconButton(
-                      style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
-
-                      ),
-                      icon: flashIconPressed
-                        ? SvgPicture.asset(
-                          'lib/images/flash.svg',
-                          width: 24.0,
-                          height: 24.0,
-                          // ignore: deprecated_member_use
-                          color: Colors.white,
-                        )
-                        : SvgPicture.asset(
-                          'lib/images/flash-off.svg',
-                          width: 24.0,
-                          height: 24.0,
-                          color: Colors.white,
-                        ),
-                      onPressed: () {
-                        setState(() {
-                          flashIconPressed = !flashIconPressed;
-                          controller!.toggleFlash();
-                        });
-                      }
-                    ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(50.0),
+                      child: FlashIconButton(controller: controller),
+                    )
                   )
                 ],
               ),
             ),
+
+            // Buttons
+            Expanded(
+              flex: 2,
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FoodManagementSelection(),
+                    // FlashIconButton(controller: controller)
+                  ],
+                ),
+              ),
+            )
+
           ],
         )
       )
