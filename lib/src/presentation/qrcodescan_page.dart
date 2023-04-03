@@ -1,10 +1,15 @@
+// Import reference libraries
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'dart:io';
-import 'dart:convert';
 
-import 'package:refrigerator_management_app/src/data/data_structure.dart';
+// Import implemented widgets for QR code scanner page
+
 import 'package:refrigerator_management_app/src/widgets/qrcodescan_widget.dart';
+
+
+// Stateful QR Code Scanner Page
 
 class QRCodeScanPage extends StatefulWidget {
   const QRCodeScanPage({super.key});
@@ -20,6 +25,7 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
   String result = "";
   bool flashIconPressed = false;
   bool scanDone = false;
+  int action = 0; // action 0 for add food, action 1 for take food out
 
   @override
   void dispose() {
@@ -38,52 +44,26 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
     }
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+  void onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     
+    // Listen for result of scanning
     controller.scannedDataStream.listen((scanData) {
       if (!scanDone) {
-        
         scanDone = true;
-        FoodQRCodeData jsonFoodData = FoodQRCodeData.fromJson(jsonDecode(scanData.code!));
-        
-        // Chuyển trang hiển thị thông tin, lưu trạng thái
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text('QR scanned!'),
-            content: Text(
-              'Result: \n'
-              'Sản phẩm: ${jsonFoodData.foodName} \n'
-              'Nhà sản xuất: ${jsonFoodData.manufactureName} \n'
-              'Ngày sản xuất: ${jsonFoodData.productionDate} \n'
-              'Hạn sử dụng: ${jsonFoodData.expirationDate} \n'
-              'Số lượng: ${jsonFoodData.amount} \n'
-              'Đơn vị tính: ${jsonFoodData.unit} \n'
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  scanDone = false;
-                  Navigator.pop(context, 'Cancel');
-                } ,
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, 'OK');
-                },
-                child: const Text('OK'),
-              ),
-            ],
+        showModalBottomSheet(
+          context: context, 
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (BuildContext context) => ResultDialog(
+            message: scanData.code!,
+            action: action,
+            callback: (value) => scanDone = value,
           ),
         );
-
-        setState(() {
-          result = scanData.code!;
-        });
       }
     });
+
   }
 
   @override
@@ -100,7 +80,7 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
           children: [
             const Padding(padding: EdgeInsets.symmetric(vertical: 24.0)),
 
-            // Header
+            // Header row with back button, title and help button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,7 +100,7 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
 
-            // QR View
+            // QR Scan View
             Expanded(
               flex: 8,
               child: Stack(
@@ -129,7 +109,7 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
                     borderRadius: BorderRadius.circular(30.0),
                     child: QRView(
                       key: qrKey,
-                      onQRViewCreated: _onQRViewCreated,
+                      onQRViewCreated: onQRViewCreated,
                       overlay: QrScannerOverlayShape(
                         // overlayColor: Color.fromRGBO(0, 0, 0, 0.2),
                         borderColor: Colors.white,
@@ -150,17 +130,14 @@ class QRCodeScanPageState extends State<QRCodeScanPage> {
               ),
             ),
 
-            // Buttons
+            // Action selection Slider
             Expanded(
               flex: 2,
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FoodManagementSelection(),
-                    // FlashIconButton(controller: controller)
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FoodManagementSelection(callback: (value) => action = value,),
+                ],
               ),
             )
 
