@@ -10,6 +10,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../data/data_structure.dart';
 
+// Import implemented features
+
+import '../features/qrcode_handle_features.dart';
+
 
 // Back button for header of QR code scan page
 
@@ -380,9 +384,30 @@ class ResultDialogState extends State<ResultDialog> {
                       ),
                     ),
 
-                    onPressed: () {
-                      widget.callback(false);
+                    onPressed: () async {
+
+                      bool x = false;
+
+                      // Xử lý thêm thực phẩm
+                      if (widget.action == 0) {
+                        await addFood(widget.message).then((value) => x = value);
+                      }
+
+                      // Xử lý lấy thực phẩm
+                      else if (widget.action == 1) {
+                        await removeFood(widget.message).then((value) => x = value);
+                      }
+
                       Navigator.pop(context, true);
+                      widget.callback(false);
+
+                      final scaffold = ScaffoldMessenger.of(context);
+                      scaffold.showSnackBar(
+                        SnackBar(
+                          content: x ? const Text('Thành công!') : const Text('Lỗi!'),
+                        ),
+                      );
+
                     },
 
                   ),
