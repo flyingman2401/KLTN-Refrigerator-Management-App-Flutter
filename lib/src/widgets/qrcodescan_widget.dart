@@ -12,7 +12,7 @@ import '../data/data_structure.dart';
 
 // Import implemented features
 
-import '../features/qrcode_handle_features.dart';
+import '../features/food_manage_features.dart';
 
 
 // Back button for header of QR code scan page

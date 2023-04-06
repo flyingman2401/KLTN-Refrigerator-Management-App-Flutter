@@ -77,3 +77,20 @@ class FoodQRCodeData {
     );
   }
 }
+
+class AllFoodData {
+  final int foodCount;
+  final List<dynamic> data;
+
+  AllFoodData({
+    required this.foodCount,
+    required this.data,
+  });
+
+  factory AllFoodData.fromJson(Map<String, dynamic> json) {
+    return AllFoodData(
+      foodCount: json['count'], 
+      data: json['data'],
+    );
+  }
+}

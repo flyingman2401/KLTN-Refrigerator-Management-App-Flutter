@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../widgets/managementpage_widgets.dart';
+
 class ManagementpagePage extends StatelessWidget {
   const ManagementpagePage ({super.key});
 
@@ -34,22 +36,12 @@ class ManagementpagePage extends StatelessWidget {
             ],
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 400,
-            child: Card(
-              margin: const EdgeInsets.only(left: 24.0, right: 24.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)
-              ),
-              color: Colors.blue,
-            ),
-          ),
+
+          ViewAllFoods(),
 
         ]
       )),
       extendBody: true,
-      // bottomNavigationBar: const NavigationBarWidget(),
     );
   }
 }
