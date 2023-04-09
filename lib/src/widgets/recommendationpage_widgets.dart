@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../data/data_structure.dart';
+
 class GreetingWidget extends StatelessWidget {
   const GreetingWidget({super.key});
   
@@ -50,13 +52,19 @@ class NotificationButton extends StatelessWidget {
 }
 
 class RecommendationItemWidget extends StatefulWidget {
-  const RecommendationItemWidget({super.key});
+  const RecommendationItemWidget({
+    super.key,
+    required this.rcmDishData
+  });
+
+  final RcmDishData rcmDishData;
   
   @override
   RecommendationItemWidgetState createState() => RecommendationItemWidgetState();
 }
 
 class RecommendationItemWidgetState extends State<RecommendationItemWidget> {
+  
   @override
   Widget build(BuildContext context) {
     Color gradientColor1 = Colors.white.withOpacity(0.5);
@@ -65,7 +73,7 @@ class RecommendationItemWidgetState extends State<RecommendationItemWidget> {
     return Container(
       width: MediaQuery.of(context).size.width - 24.0,
       height: 180,
-      margin: EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
+      margin: const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30.0),
@@ -127,8 +135,75 @@ class RecommendationItemWidgetState extends State<RecommendationItemWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Title món ăn"),
-                      Text("Mô tả món ăn"),
+                                    RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    
+                    // Sản phẩm
+                    const TextSpan(
+                      text: 'Món ăn: ',
+                      style: TextStyle(
+                        height: 1.2,
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    TextSpan(
+                      text: '${widget.rcmDishData.dishName} \n',
+                      style: const TextStyle(
+                        height: 1.2,
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.normal
+                      )
+                    ),
+
+                    // Nhà sản xuất
+                    const TextSpan(
+                      text: 'Độ phù hợp: ',
+                      style: TextStyle(
+                        height: 1.2,
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    TextSpan(
+                      text: '${widget.rcmDishData.weight} \n',
+                      style: const TextStyle(
+                        height: 1.2,
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.normal
+                      )
+                    ),
+                    
+                    // Ngày sản xuất
+                    const TextSpan(
+                              text: 'Nguyên liệu: ',
+                              style: TextStyle(
+                                height: 1.2,
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold
+                              )
+                            ),
+                    TextSpan(
+                              text: '${widget.rcmDishData.ingredients} \n',
+                              style: const TextStyle(
+                                height: 1.2,
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.normal
+                              )
+                            ),
+                  
+                  ]
+                ),
+              ),
+                      // Text("Title món ăn"),
+                      // Text("Mô tả món ăn"),
                       Row(
                         children: [
                           // Like button
@@ -162,7 +237,12 @@ class RecommendationItemWidgetState extends State<RecommendationItemWidget> {
 }
 
 class RecommendationListWidget extends StatefulWidget {
-  const RecommendationListWidget({super.key});
+  const RecommendationListWidget({
+    super.key,
+    required this.rcmDishDataList
+  });
+
+  final List<RcmDishData> rcmDishDataList;
 
   @override
   RecommendationListWidgetState createState() => RecommendationListWidgetState();
@@ -170,22 +250,16 @@ class RecommendationListWidget extends StatefulWidget {
 
 class RecommendationListWidgetState extends State<RecommendationListWidget> {
 
-  List<RecommendationItemWidget> foodRecommendation = List.from([
-    const RecommendationItemWidget(),
-    const RecommendationItemWidget(),
-    const RecommendationItemWidget(),
-  ]);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 3 * 200,
+      height: MediaQuery.of(context).size.height - 36,
       child: ListView.builder(
         // scrollDirection: Axis.vertical,
-        itemCount: 3,
+        itemCount: widget.rcmDishDataList.length,
         itemBuilder: (context, index) {
-          return foodRecommendation[index];
+          return RecommendationItemWidget(rcmDishData: widget.rcmDishDataList[index],);
         },
       )
     );

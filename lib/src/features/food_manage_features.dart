@@ -58,6 +58,8 @@ Future<List<FoodQRCodeData>> getFoodList () async {
 
   List<FoodQRCodeData> foodDataList = [];
 
+  foodManagementURL = "$foodManagementURL?action=2";
+
   var response = await http.get(
     Uri.parse(foodManagementURL),
     headers: {"Content-Type": "application/json"},
@@ -75,5 +77,28 @@ Future<List<FoodQRCodeData>> getFoodList () async {
   }
 
   return Future.value(foodDataList);
+
+}
+
+Future<List<RcmDishData>> getRcmDishList () async {
+
+  List<RcmDishData> rcmDishesList = [];
+
+  var response = await http.get(
+    Uri.parse("$foodManagementURL?action=3"),
+    headers: {"Content-Type": "application/json"},
+  );
+
+  if (response.statusCode == 200) {
+
+    final jsonArray = json.decode(response.body);
+    final itemCount = jsonArray.length;
+    for (var i = 0; i < itemCount; i++) {
+      RcmDishData rcmDishItem = RcmDishData.fromJson(jsonArray[i]);
+      rcmDishesList.add(rcmDishItem);
+    }
+
+  }
+  return Future.value(rcmDishesList);
 
 }

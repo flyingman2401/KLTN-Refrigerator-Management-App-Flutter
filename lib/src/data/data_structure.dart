@@ -94,3 +94,24 @@ class AllFoodData {
     );
   }
 }
+
+class RcmDishData {
+  final String dishName;
+  final double weight;
+  final List ingredients;
+
+
+  RcmDishData({
+    required this.dishName,
+    required this.weight,
+    required this.ingredients
+  });
+
+  factory RcmDishData.fromJson(Map<String, dynamic> json) {
+    return RcmDishData(
+      dishName: json['dishname'], 
+      weight: json['weight'], 
+      ingredients: json['ingredients'],
+    );
+  }
+}
