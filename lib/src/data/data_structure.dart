@@ -1,14 +1,20 @@
 class SensorsData {
-  final String temp;
-  final String humi;
+  final String deviceID;
+  final DateTime time;
+  final double temp;
+  final double humi;
 
   SensorsData({
+    required this.deviceID,
+    required this.time,
     required this.temp,
     required this.humi,
   });
 
   factory SensorsData.fromJson(Map<String, dynamic> json) {
     return SensorsData(
+      deviceID: json['deviceID'],
+      time: DateTime.parse(json['time']['\$date'].toString()),
       temp: json['temp'],
       humi: json['humi'],
     );
@@ -115,3 +121,4 @@ class RcmDishData {
     );
   }
 }
+

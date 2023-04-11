@@ -5,49 +5,6 @@ import 'package:refrigerator_management_app/src/data/data_structure.dart';
 import 'package:refrigerator_management_app/src/features/sensors_features.dart';
 
 
-// StatefulWidget of Home Page Temperature display widget
-
-class HomePageTemperatureWidget extends StatefulWidget {
-  const HomePageTemperatureWidget({super.key});
-
-  @override
-  HomePageTemperatureWidgetState createState() => HomePageTemperatureWidgetState();
-}
-
-class HomePageTemperatureWidgetState extends State<HomePageTemperatureWidget> {
-  
-  late Future<SensorsData> futureSensorsData;
-
-  @override
-  void initState() {
-    super.initState();
-    futureSensorsData = getSensorsDataRequest();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: FutureBuilder<SensorsData>(
-            future: futureSensorsData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!.temp);
-              }
-              else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 // Display greetings to user widget
 
 class GreetingWidget extends StatefulWidget {
