@@ -181,7 +181,9 @@ class ResultDialogState extends State<ResultDialog> {
   @override
   Widget build(BuildContext context) {
 
+    print(widget.message);
     FoodQRCodeData jsonFoodData = FoodQRCodeData.fromJson(jsonDecode(widget.message));
+
 
     return DraggableScrollableSheet(
       initialChildSize: 0.4,
@@ -236,7 +238,7 @@ class ResultDialogState extends State<ResultDialog> {
                       )
                     ),
                     TextSpan(
-                      text: '${jsonFoodData.foodName} \n',
+                      text: '${jsonFoodData.ingredientID} \n',
                       style: const TextStyle(
                         height: 1.2,
                         color: Colors.black,
@@ -256,7 +258,7 @@ class ResultDialogState extends State<ResultDialog> {
                       )
                     ),
                     TextSpan(
-                      text: '${jsonFoodData.manufactureName} \n',
+                      text: '${jsonFoodData.foodManufacture} \n',
                       style: const TextStyle(
                         height: 1.2,
                         color: Colors.black,
@@ -276,7 +278,7 @@ class ResultDialogState extends State<ResultDialog> {
                               )
                             ),
                     TextSpan(
-                              text: '${jsonFoodData.productionDate} \n',
+                              text: '${jsonFoodData.foodPRD} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -296,7 +298,7 @@ class ResultDialogState extends State<ResultDialog> {
                               )
                             ),
                     TextSpan(
-                              text: '${jsonFoodData.expirationDate} \n',
+                              text: '${jsonFoodData.foodEXP} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -316,7 +318,7 @@ class ResultDialogState extends State<ResultDialog> {
                               )
                             ),
                     TextSpan(
-                              text: '${jsonFoodData.amount} \n',
+                              text: '${jsonFoodData.foodAmount} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -336,7 +338,7 @@ class ResultDialogState extends State<ResultDialog> {
                               )
                             ),
                     TextSpan(
-                              text: '${jsonFoodData.unit} \n',
+                              text: '${jsonFoodData.foodUnit} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -390,14 +392,14 @@ class ResultDialogState extends State<ResultDialog> {
 
                       // Xử lý thêm thực phẩm
                       if (widget.action == 0) {
-                        await addFood(widget.message).then((value) => x = value);
+                        await addIngredient(widget.message, "USER001", false).then((value) => x = value);
                       }
 
                       // Xử lý lấy thực phẩm
                       else if (widget.action == 1) {
-                        await removeFood(widget.message).then((value) => x = value);
+                        await removeIngredient(widget.message, "USER001").then((value) => x = value);
                       }
-
+                      
                       Navigator.pop(context, true);
                       widget.callback(false);
 

@@ -57,7 +57,7 @@ class RecommendationItemWidget extends StatefulWidget {
     required this.rcmDishData
   });
 
-  final RcmDishData rcmDishData;
+  final RecommendationDish rcmDishData;
   
   @override
   RecommendationItemWidgetState createState() => RecommendationItemWidgetState();
@@ -190,7 +190,7 @@ class RecommendationItemWidgetState extends State<RecommendationItemWidget> {
                               )
                             ),
                     TextSpan(
-                              text: '${widget.rcmDishData.ingredients} \n',
+                              text: '${widget.rcmDishData.dishIngredients} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -242,7 +242,7 @@ class RecommendationListWidget extends StatefulWidget {
     required this.rcmDishDataList
   });
 
-  final List<RcmDishData> rcmDishDataList;
+  final List<RecommendationDish> rcmDishDataList;
 
   @override
   RecommendationListWidgetState createState() => RecommendationListWidgetState();

@@ -38,7 +38,7 @@ class ManagementpagePage extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
 
           const ViewAllFoods(),
-          const SensorDataGraph(),
+          // const SensorDataGraph(),
 
         ]
       )),

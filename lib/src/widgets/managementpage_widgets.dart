@@ -7,6 +7,7 @@ import 'dart:ui' as ui;
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import '../features/food_manage_features.dart';
 
 class ViewAllFoods extends StatefulWidget {
   const ViewAllFoods({super.key});
@@ -49,7 +50,9 @@ class ViewAllFoodsState extends State<ViewAllFoods> {
         color: Colors.black,
       ),
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllFoodsPage()));
+        updateFridgeIngredientList().then((value){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllFoodsPage()));
+        });
       },
     );
     
@@ -125,8 +128,8 @@ class SensorDataGraphState extends State<SensorDataGraph> {
                 [0.3, 0.6, 0.9]
               );
             },
-            xValueMapper: (SensorsData data, _) => data.time,
-            yValueMapper: (SensorsData data, _) => data.temp,
+            xValueMapper: (SensorsData data, _) => data.dataTime,
+            yValueMapper: (SensorsData data, _) => data.dataTemp,
             markerSettings: const MarkerSettings(
               isVisible: true,
               color: Colors.red,
@@ -145,8 +148,8 @@ class SensorDataGraphState extends State<SensorDataGraph> {
                 [0.3, 0.6, 0.9]
               );
             },
-            xValueMapper: (SensorsData data, _) => data.time,
-            yValueMapper: (SensorsData data, _) => data.humi,
+            xValueMapper: (SensorsData data, _) => data.dataTime,
+            yValueMapper: (SensorsData data, _) => data.dataHumi,
             yAxisName: 'yAxis',
             markerSettings: const MarkerSettings(
               isVisible: true,

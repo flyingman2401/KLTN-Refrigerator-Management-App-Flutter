@@ -1,10 +1,9 @@
-import 'dart:convert';
+import 'package:refrigerator_management_app/global_variables.dart' as global_variables;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../data/data_structure.dart';
-import '../features/food_manage_features.dart';
 
 class AllFoodsPage extends StatefulWidget {
   const AllFoodsPage({super.key});
@@ -14,18 +13,6 @@ class AllFoodsPage extends StatefulWidget {
 }
 
 class AllFoodsPageState extends State<AllFoodsPage> {
-
-  List<FoodQRCodeData> foodDataList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    
-    getFoodList().then((value) {
-      foodDataList = value;
-      setState(() {});
-    },);
-  }
     
   @override
   Widget build(BuildContext context) {
@@ -34,25 +21,24 @@ class AllFoodsPageState extends State<AllFoodsPage> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.symmetric(vertical: 24.0)),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 24.0)),
+
             Row(
               children: [
                 BackButton(
                   onPressed: () => Navigator.pop(context),
                 ),
-                Text('Thực phẩm hiện có')
+                const Text('Thực phẩm hiện có')
               ],
             ),
 
-            FoodListWidget(foodDataList: foodDataList)
-
+            FoodListWidget(foodDataList: global_variables.fridgeIngredientList)
             
           ],
         ),
       ),
     );
   }
-  
 }
 
 
@@ -62,7 +48,7 @@ class FoodItemWidget extends StatefulWidget {
     required this.foodData
   });
 
-  final FoodQRCodeData foodData;
+  final IngredientInsideFridge foodData;
   
   @override
   FoodItemWidgetState createState() => FoodItemWidgetState();
@@ -155,7 +141,7 @@ class FoodItemWidgetState extends State<FoodItemWidget> {
                       )
                     ),
                     TextSpan(
-                      text: '${widget.foodData.foodName} \n',
+                      text: '${widget.foodData.ingredientID} \n',
                       style: const TextStyle(
                         height: 1.2,
                         color: Colors.black,
@@ -175,7 +161,7 @@ class FoodItemWidgetState extends State<FoodItemWidget> {
                       )
                     ),
                     TextSpan(
-                      text: '${widget.foodData.manufactureName} \n',
+                      text: '${widget.foodData.foodManufacture} \n',
                       style: const TextStyle(
                         height: 1.2,
                         color: Colors.black,
@@ -195,7 +181,7 @@ class FoodItemWidgetState extends State<FoodItemWidget> {
                               )
                             ),
                     TextSpan(
-                              text: '${widget.foodData.productionDate} \n',
+                              text: '${widget.foodData.foodPRD} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -215,7 +201,7 @@ class FoodItemWidgetState extends State<FoodItemWidget> {
                               )
                             ),
                     TextSpan(
-                              text: '${widget.foodData.expirationDate} \n',
+                              text: '${widget.foodData.foodEXP} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -235,7 +221,7 @@ class FoodItemWidgetState extends State<FoodItemWidget> {
                               )
                             ),
                     TextSpan(
-                              text: '${widget.foodData.amount} \n',
+                              text: '${widget.foodData.foodAmount} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -255,7 +241,7 @@ class FoodItemWidgetState extends State<FoodItemWidget> {
                               )
                             ),
                     TextSpan(
-                              text: '${widget.foodData.unit} \n',
+                              text: '${widget.foodData.foodUnit} \n',
                               style: const TextStyle(
                                 height: 1.2,
                                 color: Colors.black,
@@ -307,7 +293,7 @@ class FoodListWidget extends StatefulWidget {
     required this.foodDataList
   });
 
-  final List<FoodQRCodeData> foodDataList;
+  final List<IngredientInsideFridge> foodDataList;
 
   @override
   FoodListWidgetState createState() => FoodListWidgetState();
@@ -324,7 +310,7 @@ class FoodListWidgetState extends State<FoodListWidget> {
         // scrollDirection: Axis.vertical,
         itemCount: widget.foodDataList.length,
         itemBuilder: (context, index) {
-          print(widget.foodDataList[index].foodName);
+          print(widget.foodDataList[index].ingredientID);
           return FoodItemWidget(foodData: widget.foodDataList[index]);
         },
       )
